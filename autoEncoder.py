@@ -2,9 +2,9 @@ import os
 import subprocess
 from mutagen.easymp4 import EasyMP4
 
-ffmpegPath = 'D:\\_userData\\Programs\\ffmpeg\\bin\\ffmpeg.exe'
+ffmpegPath = 'YOUR ffmpeg.exe PATH'
 
-print("Drop the dir.")
+print("対象のフォルダをドロップ")
 dir = input()
 fileList = os.listdir(dir)
 
@@ -40,7 +40,7 @@ for fileName in fileList:
 			if(length == 0):
 				info["comment"] = "compressed by ffmpeg"
 				info.save()
-				logList.append((fileName, "no sound"))
+				logList.append((fileName, "無音"))
 				continue
 			else:
 				bitrate = int(size*8 / length / 1000)
@@ -48,7 +48,8 @@ for fileName in fileList:
 				if(bitrate <= 2500):
 					info["comment"] = "compressed by ffmpeg"
 					info.save()
-					logList.append((fileName, "bitrate is less than about 2500Kb/s"))
+					logList.append((fileName, "ビットレートが約 2500Kb/s 以下"))
+
 					continue
 				else:
 					subprocess.run([ffmpegPath, "-i", fullPath, "-vcodec", "libx264", "-acodec", "copy", dstPath])
@@ -63,7 +64,7 @@ for fileName in fileList:
 						dstinfo.save()
 
 						os.utime(dstPath, (dstatime, mtime))
-						logList.append((fileName, "compressed"))
+						logList.append((fileName, "圧縮した"))
 					else:
 						#エンコードしたらサイズが大きくなった場合
 						info["comment"] = "compressed by ffmpeg"
@@ -71,17 +72,17 @@ for fileName in fileList:
 						os.remove(dstPath)
 
 						os.utime(fullPath, (atime, mtime))
-						logList.append((fileName, "original is smaller"))
+						logList.append((fileName, "オリジナルのほうが小さい"))
 					
 		else:
-			logList.append((fileName, 'has "compressed by ffmpeg" comment'))
+			logList.append((fileName, '既に "compressed by ffmpeg" のコメントがある'))
 	else:
 		if(ext==".mp4" or ext == ".mov"):
-			logList.append((fileName, 'already in "encoded" dir'))
+			logList.append((fileName, '既に "encoded" フォルダにある'))
 
 print("\nSummary\n")
 for (l1, l2) in logList:
 	print(l1, "\t", l2)
 
-print("\nPress enter to exit.")
+print("\nEnterキーで終了")
 _ = input()
