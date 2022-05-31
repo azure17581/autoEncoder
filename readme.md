@@ -8,8 +8,8 @@ iPad や PC でキャプチャしたゲームのプレイ動画などに効果�
 - パソコンのスペックによっては処理に非常に時間がかかる場合があります。  
 
 ## 必要なもの
-- ffmpeg
-- mutagen
+- [ffmpeg](https://ffmpeg.org/)
+- [mutagen](https://pypi.org/project/mutagen/)
 
 ## 導入 (Windows)
 - ffmpeg を [こちら](https://ffmpeg.org/) からダウンロード/インストール。
